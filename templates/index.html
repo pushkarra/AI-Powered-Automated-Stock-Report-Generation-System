@@ -83,6 +83,21 @@
         {{ tables|safe }}
     {% endif %}
 
+    {% if graph_generated %}
+
+      <h2 style="margin-top:40px; text-align:center;">
+         Stock Price Trend Graph
+      </h2>
+
+      <div style="text-align:center; margin-top:20px;">
+
+         <img src="{{ url_for('static', filename='stock_graph.png') }}"
+             width="800">
+
+      </div>
+
+    {% endif %}
+
 </div>
 
 </body>
