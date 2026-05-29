@@ -98,6 +98,27 @@
 
     {% endif %}
 
+    {% if predicted_price %}
+
+       <div style="
+          margin-top:40px;
+          background:#d4edda;
+          padding:20px;
+          border-radius:10px;
+          text-align:center;
+       ">
+
+          <h2>AI Predicted Next Day Price</h2>
+
+          <h1 style="color:green;">
+              ₹ {{ predicted_price }}
+          </h1>
+
+       </div>
+
+    {% endif %}   
+
+
 </div>
 
 </body>
