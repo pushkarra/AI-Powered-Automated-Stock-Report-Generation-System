@@ -83,6 +83,24 @@
         {{ tables|safe }}
     {% endif %}
 
+    <div style="
+    background:#f8f9fa;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+    text-align:center;
+    ">
+
+    <h2>Project Analysis Summary</h2>
+
+    <p>
+    This AI-powered system analyzes historical stock market data,
+    predicts future prices using machine learning,
+    and generates automated investment recommendations.
+    </p>
+
+    </div>
+
     {% if graph_generated %}
 
       <h2 style="margin-top:40px; text-align:center;">
@@ -97,6 +115,7 @@
       </div>
 
     {% endif %}
+
 
     {% if predicted_price %}
 
@@ -133,13 +152,43 @@
 
        <h3>Current Price: ₹ {{ current_price }}</h3>
 
-       <h1>{{ recommendation }}</h1>
+       {% if recommendation == "BUY" %}
+       <h1 style="color:green;">🟢 BUY</h1>
+
+       {% elif recommendation == "SELL" %}
+       <h1 style="color:red;">🔴 SELL</h1>
+
+       {% else %}
+       <h1 style="color:orange;">🟡 HOLD</h1>
+
+       {% endif %}
 
     </div>
 
     {% endif %}
 
 
+
+    {% if mae %}
+
+    <div style="
+    margin-top:20px;
+    background:#e2e3e5;
+    padding:20px;
+    border-radius:10px;
+    text-align:center;
+    ">
+
+    <h2>Model Validation</h2>
+
+    <h3>Mean Absolute Error (MAE)</h3>
+
+    <h1>{{ mae }}</h1>
+
+    </div>
+
+    {% endif %}
+    
 
     {% if report %}
 
@@ -167,7 +216,46 @@
     {% endif %}
 
 
+
+    {% if report %}
+
+    <div style="text-align:center; margin-top:20px;">
+
+        <a href="/download_pdf">
+
+            <button style="
+                padding:12px 20px;
+                background:green;
+                color:white;
+                border:none;
+                border-radius:5px;
+                cursor:pointer;
+            ">
+                Download PDF Report
+            </button>
+
+        </a>
+
+    </div>
+
+    {% endif %}
+
+
 </div>
 
 </body>
+
+<footer style="
+text-align:center;
+margin-top:30px;
+padding:15px;
+background:#f1f1f1;
+">
+
+AI-Powered Automated Stock Report Generation System
+
+</footer>
+
 </html>
+
+
