@@ -119,6 +119,54 @@
     {% endif %}   
 
 
+    {% if recommendation %}
+
+    <div style="
+       margin-top:20px;
+       padding:20px;
+       border-radius:10px;
+       text-align:center;
+       background:#fff3cd;
+    ">
+
+       <h2>AI Investment Recommendation</h2>
+
+       <h3>Current Price: ₹ {{ current_price }}</h3>
+
+       <h1>{{ recommendation }}</h1>
+
+    </div>
+
+    {% endif %}
+
+
+
+    {% if report %}
+
+    <div style="
+        margin-top:20px;
+        background:#f8f9fa;
+        padding:20px;
+        border-radius:10px;
+    ">
+
+        <h2 style="text-align:center;">
+            Automated Stock Report
+        </h2>
+
+        <pre style="
+            white-space:pre-wrap;
+            font-size:16px;
+            line-height:1.6;
+        ">
+    {{ report }}
+        </pre>
+
+    </div>
+
+    {% endif %}
+
+
 </div>
 
 </body>
