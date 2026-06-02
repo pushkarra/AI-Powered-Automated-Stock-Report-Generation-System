@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
     <title>AI Stock Report System</title>
@@ -258,4 +258,229 @@ AI-Powered Automated Stock Report Generation System
 
 </html>
 
+ -->
 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Stock Report System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    {# ── LANDING PAGE: show header + search only when no data ── #}
+    {% if not tables %}
+
+        <div class="top-banner">
+            <h1>AI-Powered Automated Stock Report Generation System</h1>
+        </div>
+
+        <div class="search-bar-row">
+            <form class="search-form" method="POST">
+                <input type="text" name="stock"
+                       placeholder="Enter stock symbol — e.g. TCS, RELIANCE, INFY"
+                       required>
+                <button type="submit">Generate Report</button>
+            </form>
+        </div>
+
+    {% else %}
+
+    {# ── RESULTS PAGE: replace header+search with slim results bar ── #}
+        <div class="results-banner">
+            <div>
+                <div class="results-banner-title">
+                    Stock Analysis Report
+                    <span>AI-Powered</span>
+                </div>
+            </div>
+            <div class="results-banner-symbol">
+                📈 &nbsp;{{ stock_symbol }}
+                <small>NSE</small>
+            </div>
+            <a href="/" class="btn-new-search">↩ New Search</a>
+        </div>
+
+    {% endif %}
+
+    {# ── ERROR ── #}
+    {% if error %}
+    <div class="page">
+        <div class="error-banner reveal">⚠️ {{ error }}</div>
+    </div>
+    {% endif %}
+
+    {# ── RESULTS CONTENT ── #}
+    {% if tables %}
+    <div class="page">
+
+        <!-- Summary -->
+        <div class="summary-box reveal">
+            <div class="summary-icon">📊</div>
+            <div>
+                <h2>Project Analysis Summary</h2>
+                <p>This AI-powered system analyzes historical stock market data, predicts future prices using machine learning, and generates automated investment recommendations.</p>
+            </div>
+        </div>
+
+        <!-- Historical Data Table — full width -->
+        <div class="section-label reveal">Historical Data</div>
+        <div class="card reveal">
+            <div class="table-scroll">
+                {{ tables|safe }}
+            </div>
+        </div>
+
+        <!-- Stock Price Trend — full width below table -->
+        {% if graph_generated %}
+        <div class="section-label reveal">Stock Price Trend</div>
+        <div class="card reveal">
+            <div class="graph-inner">
+                <img src="{{ url_for('static', filename='stock_graph.png') }}"
+                     alt="Stock Price Trend">
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- AI Results -->
+        {% if predicted_price or recommendation or mae %}
+        <div class="section-label reveal">AI Intelligence Results</div>
+        <div class="cards-row">
+
+            {% if predicted_price %}
+            <div class="info-card card-predict reveal" style="transition-delay:0.1s">
+                <div class="card-label">Predicted Next Day Price</div>
+                <div class="card-value">₹{{ predicted_price }}</div>
+                <div class="card-sub">AI Forecast · Linear Regression Model</div>
+            </div>
+            {% endif %}
+
+            {% if recommendation %}
+            <div class="info-card
+                {% if recommendation == 'BUY' %}card-buy
+                {% elif recommendation == 'SELL' %}card-sell
+                {% else %}card-hold{% endif %}
+                reveal" style="transition-delay:0.2s">
+                <div class="card-label">Investment Recommendation</div>
+                <div class="card-value">
+                    <span class="rec-dot {{ recommendation|lower }}"></span>{{ recommendation }}
+                </div>
+                <div class="card-sub">Current Price: ₹{{ current_price }}</div>
+            </div>
+            {% endif %}
+
+            {% if mae %}
+            <div class="info-card card-mae reveal" style="transition-delay:0.3s">
+                <div class="card-label">Model MAE Score</div>
+                <div class="card-value">{{ mae }}</div>
+                <div class="card-sub">Mean Absolute Error</div>
+            </div>
+            {% endif %}
+
+        </div>
+        {% endif %}
+
+        <!-- Executive Report -->
+        {% if report %}
+        <div class="section-label reveal">Executive Stock Report</div>
+        <div class="report-card reveal">
+
+            <div class="report-header">
+                <div class="report-icon">📄</div>
+                <div>
+                    <div class="report-title">Executive Stock Analysis Report</div>
+                    <div class="report-subtitle">{{ predicted_price }} · {{ recommendation }}</div>
+                </div>
+            </div>
+
+            <div class="report-body">
+
+                <!-- Stock Identity -->
+                <div class="report-section">
+                    <div class="report-section-title">Stock Under Analysis</div>
+                    <p class="report-text">
+                        This report presents an automated analysis for
+                        <span class="stock-highlight">{{ stock_symbol }}</span>.
+                        The data covers the last 3 months of trading activity on the NSE exchange,
+                        processed through a Linear Regression model with moving average features.
+                    </p>
+                </div>
+
+                <!-- Market Trend -->
+                <div class="report-section">
+                    <div class="report-section-title">Market Trend Analysis</div>
+                    <p class="report-text">
+                        {% if recommendation == 'BUY' %}
+                        The stock shows <strong>positive momentum</strong> based on historical data.
+                        The AI model's predicted price of <strong>₹{{ predicted_price }}</strong> is higher than
+                        the current market price of <strong>₹{{ current_price }}</strong>,
+                        suggesting a potential upward movement in the short term.
+                        {% elif recommendation == 'SELL' %}
+                        The stock shows <strong>negative momentum</strong> based on historical data.
+                        The AI model's predicted price of <strong>₹{{ predicted_price }}</strong> is lower than
+                        the current market price of <strong>₹{{ current_price }}</strong>,
+                        suggesting a potential downward movement in the short term.
+                        {% else %}
+                        The stock is currently moving within a <strong>stable price range</strong>.
+                        The AI model's predicted price of <strong>₹{{ predicted_price }}</strong> is close to
+                        the current market price of <strong>₹{{ current_price }}</strong>,
+                        indicating a consolidation phase with no strong directional bias.
+                        {% endif %}
+                    </p>
+                </div>
+
+                <!-- Business Insight -->
+                <div class="report-section">
+                    <div class="report-section-title">Business Insight</div>
+                    <p class="report-text">
+                        The machine learning model analyzes <strong>historical market behavior</strong>
+                        using closing prices, 5-day and 10-day moving averages, and daily return rates.
+                        Based on the prediction and trend comparison, the system recommends a
+                        <strong>{{ recommendation }}</strong> position with a model accuracy (MAE) of <strong>{{ mae }}</strong>.
+                    </p>
+                </div>
+
+                <!-- Conclusion -->
+                <div class="report-section">
+                    <div class="report-section-title">Conclusion</div>
+                    <p class="report-text">
+                        Investors may use this analysis as a <strong>decision-support tool</strong>.
+                        Actual investment decisions should consider additional market and financial factors
+                        beyond this automated analysis. Past performance and AI predictions do not guarantee future results.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="report-footer">
+                Generated by AI-Powered Automated Stock Report Generation System
+            </div>
+        </div>
+
+        <div class="btn-download-wrap reveal">
+            <a href="/download_pdf" class="btn-download">⬇&nbsp; Download PDF Report</a>
+        </div>
+        {% endif %}
+
+    </div>
+    {% endif %}
+
+    <footer>
+        AI-Powered Automated Stock Report Generation System
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right')
+                .forEach(el => observer.observe(el));
+    </script>
+
+</body>
+</html>
