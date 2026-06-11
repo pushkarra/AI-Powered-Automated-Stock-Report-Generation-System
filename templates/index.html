@@ -1,266 +1,3 @@
-<!-- <!DOCTYPE html>
-<html>
-<head>
-    <title>AI Stock Report System</title>
-
-    <style>
-        body{
-            font-family: Arial;
-            background-color:#f4f4f4;
-            padding:40px;
-        }
-
-        .container{
-            background:white;
-            padding:30px;
-            border-radius:10px;
-            width:70%;
-            margin:auto;
-            box-shadow:0px 0px 10px gray;
-        }
-
-        h1{
-            text-align:center;
-            color:#333;
-        }
-
-        form{
-            text-align:center;
-            margin-bottom:30px;
-        }
-
-        input{
-            padding:10px;
-            width:250px;
-            font-size:16px;
-        }
-
-        button{
-            padding:10px 20px;
-            background:#007bff;
-            color:white;
-            border:none;
-            cursor:pointer;
-        }
-
-        table{
-            width:100%;
-            border-collapse:collapse;
-            margin-top:20px;
-        }
-
-        table, th, td{
-            border:1px solid #ccc;
-        }
-
-        th, td{
-            padding:10px;
-            text-align:center;
-        }
-
-        th{
-            background:#007bff;
-            color:white;
-        }
-    </style>
-</head>
-
-<body>
-
-<div class="container">
-
-    <h1>AI-Powered Automated Stock Report Generation System</h1>
-
-    <form method="POST">
-
-        <input type="text" name="stock" placeholder="Enter Stock Symbol (Example: TCS.NS)" required>
-
-        <button type="submit">Generate Report</button>
-
-    </form>
-
-    {% if tables %}
-        {{ tables|safe }}
-    {% endif %}
-
-    <div style="
-    background:#f8f9fa;
-    padding:20px;
-    border-radius:10px;
-    margin-bottom:20px;
-    text-align:center;
-    ">
-
-    <h2>Project Analysis Summary</h2>
-
-    <p>
-    This AI-powered system analyzes historical stock market data,
-    predicts future prices using machine learning,
-    and generates automated investment recommendations.
-    </p>
-
-    </div>
-
-    {% if graph_generated %}
-
-      <h2 style="margin-top:40px; text-align:center;">
-         Stock Price Trend Graph
-      </h2>
-
-      <div style="text-align:center; margin-top:20px;">
-
-         <img src="{{ url_for('static', filename='stock_graph.png') }}"
-             width="800">
-
-      </div>
-
-    {% endif %}
-
-
-    {% if predicted_price %}
-
-       <div style="
-          margin-top:40px;
-          background:#d4edda;
-          padding:20px;
-          border-radius:10px;
-          text-align:center;
-       ">
-
-          <h2>AI Predicted Next Day Price</h2>
-
-          <h1 style="color:green;">
-              ₹ {{ predicted_price }}
-          </h1>
-
-       </div>
-
-    {% endif %}   
-
-
-    {% if recommendation %}
-
-    <div style="
-       margin-top:20px;
-       padding:20px;
-       border-radius:10px;
-       text-align:center;
-       background:#fff3cd;
-    ">
-
-       <h2>AI Investment Recommendation</h2>
-
-       <h3>Current Price: ₹ {{ current_price }}</h3>
-
-       {% if recommendation == "BUY" %}
-       <h1 style="color:green;">🟢 BUY</h1>
-
-       {% elif recommendation == "SELL" %}
-       <h1 style="color:red;">🔴 SELL</h1>
-
-       {% else %}
-       <h1 style="color:orange;">🟡 HOLD</h1>
-
-       {% endif %}
-
-    </div>
-
-    {% endif %}
-
-
-
-    {% if mae %}
-
-    <div style="
-    margin-top:20px;
-    background:#e2e3e5;
-    padding:20px;
-    border-radius:10px;
-    text-align:center;
-    ">
-
-    <h2>Model Validation</h2>
-
-    <h3>Mean Absolute Error (MAE)</h3>
-
-    <h1>{{ mae }}</h1>
-
-    </div>
-
-    {% endif %}
-    
-
-    {% if report %}
-
-    <div style="
-        margin-top:20px;
-        background:#f8f9fa;
-        padding:20px;
-        border-radius:10px;
-    ">
-
-        <h2 style="text-align:center;">
-            Automated Stock Report
-        </h2>
-
-        <pre style="
-            white-space:pre-wrap;
-            font-size:16px;
-            line-height:1.6;
-        ">
-    {{ report }}
-        </pre>
-
-    </div>
-
-    {% endif %}
-
-
-
-    {% if report %}
-
-    <div style="text-align:center; margin-top:20px;">
-
-        <a href="/download_pdf">
-
-            <button style="
-                padding:12px 20px;
-                background:green;
-                color:white;
-                border:none;
-                border-radius:5px;
-                cursor:pointer;
-            ">
-                Download PDF Report
-            </button>
-
-        </a>
-
-    </div>
-
-    {% endif %}
-
-
-</div>
-
-</body>
-
-<footer style="
-text-align:center;
-margin-top:30px;
-padding:15px;
-background:#f1f1f1;
-">
-
-AI-Powered Automated Stock Report Generation System
-
-</footer>
-
-</html>
-
- -->
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -268,56 +5,98 @@ AI-Powered Automated Stock Report Generation System
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Stock Report System</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-    {# ── LANDING PAGE: show header + search only when no data ── #}
-    {% if not tables %}
+{% if not tables %}
+{# ════════════════════════════════════════════
+   LANDING PAGE
+════════════════════════════════════════════ #}
+<div class="landing">
 
-        <div class="top-banner">
-            <h1>AI-Powered Automated Stock Report Generation System</h1>
+    <nav class="landing-nav">
+        <div class="landing-nav-logo">StockAI · Report System</div>
+    </nav>
+
+    <div class="landing-hero">
+
+        <h1 class="landing-title">
+            Automated Stock <span class="dim">Report Generation</span>
+        </h1>
+
+        <p class="landing-sub">
+            Enter any NSE stock symbol. Our machine learning engine fetches
+            3 months of market data, predicts the next day's price, and
+            delivers a full investment analysis report.
+        </p>
+
+        <form class="landing-search" method="POST">
+            <input type="text" name="stock"
+                   id="stockInput"
+                   placeholder="Enter symbol — TCS, RELIANCE, INFY..."
+                   required>
+            <button type="submit">Generate Report →</button>
+        </form>
+
+        <div class="landing-chips">
+            <span class="chip" onclick="fill('TCS')">TCS</span>
+            <span class="chip" onclick="fill('RELIANCE')">RELIANCE</span>
+            <span class="chip" onclick="fill('INFY')">INFY</span>
+            <span class="chip" onclick="fill('HDFCBANK')">HDFCBANK</span>
+            <span class="chip" onclick="fill('WIPRO')">WIPRO</span>
+            <span class="chip" onclick="fill('SBIN')">SBIN</span>
         </div>
 
-        <div class="search-bar-row">
-            <form class="search-form" method="POST">
-                <input type="text" name="stock"
-                       placeholder="Enter stock symbol — e.g. TCS, RELIANCE, INFY"
-                       required>
-                <button type="submit">Generate Report</button>
-            </form>
-        </div>
-
-    {% else %}
-
-    {# ── RESULTS PAGE: replace header+search with slim results bar ── #}
-        <div class="results-banner">
-            <div>
-                <div class="results-banner-title">
-                    Stock Analysis Report
-                    <span>AI-Powered</span>
-                </div>
+        <div class="landing-features">
+            <div class="feature-card">
+                <span class="feature-icon">📥</span>
+                <div class="feature-title">Live Market Data</div>
+                <div class="feature-desc">Fetches real 3-month OHLCV history from NSE via yFinance API automatically.</div>
             </div>
-            <div class="results-banner-symbol">
-                📈 &nbsp;{{ stock_symbol }}
-                <small>NSE</small>
+            <div class="feature-card">
+                <span class="feature-icon">🤖</span>
+                <div class="feature-title">ML Price Prediction</div>
+                <div class="feature-desc">Linear Regression with moving averages and daily returns for next-day forecasting.</div>
             </div>
-            <a href="/" class="btn-new-search">↩ New Search</a>
+            <div class="feature-card">
+                <span class="feature-icon">📄</span>
+                <div class="feature-title">Instant PDF Report</div>
+                <div class="feature-desc">Auto-generates an executive analysis report downloadable as a PDF in one click.</div>
+            </div>
         </div>
-
-    {% endif %}
-
-    {# ── ERROR ── #}
-    {% if error %}
-    <div class="page">
-        <div class="error-banner reveal">⚠️ {{ error }}</div>
     </div>
-    {% endif %}
 
-    {# ── RESULTS CONTENT ── #}
-    {% if tables %}
+    <footer class="landing-footer">
+        AI-Powered Automated Stock Report Generation System
+    </footer>
+</div>
+
+{% else %}
+{# ════════════════════════════════════════════
+   RESULTS PAGE
+════════════════════════════════════════════ #}
+<div class="results-page">
+
+    <!-- Sticky top bar -->
+    <div class="results-banner">
+        <div class="results-banner-title">
+            Stock Analysis Report
+            <span>AI-Powered</span>
+        </div>
+        <div class="results-banner-symbol">
+            📈 &nbsp;{{ stock_symbol }}
+            <small>NSE</small>
+        </div>
+        <a href="/" class="btn-new-search">↩ New Search</a>
+    </div>
+
     <div class="page">
+
+        {% if error %}
+        <div class="error-banner reveal">⚠️ {{ error }}</div>
+        {% endif %}
 
         <!-- Summary -->
         <div class="summary-box reveal">
@@ -328,21 +107,18 @@ AI-Powered Automated Stock Report Generation System
             </div>
         </div>
 
-        <!-- Historical Data Table — full width -->
+        <!-- Historical Data -->
         <div class="section-label reveal">Historical Data</div>
         <div class="card reveal">
-            <div class="table-scroll">
-                {{ tables|safe }}
-            </div>
+            <div class="table-scroll">{{ tables|safe }}</div>
         </div>
 
-        <!-- Stock Price Trend — full width below table -->
+        <!-- Stock Price Trend -->
         {% if graph_generated %}
         <div class="section-label reveal">Stock Price Trend</div>
         <div class="card reveal">
             <div class="graph-inner">
-                <img src="{{ url_for('static', filename='stock_graph.png') }}"
-                     alt="Stock Price Trend">
+                <img src="{{ url_for('static', filename='stock_graph.png') }}" alt="Stock Price Trend">
             </div>
         </div>
         {% endif %}
@@ -351,9 +127,8 @@ AI-Powered Automated Stock Report Generation System
         {% if predicted_price or recommendation or mae %}
         <div class="section-label reveal">AI Intelligence Results</div>
         <div class="cards-row">
-
             {% if predicted_price %}
-            <div class="info-card card-predict reveal" style="transition-delay:0.1s">
+            <div class="info-card card-predict reveal" style="transition-delay:0.08s">
                 <div class="card-label">Predicted Next Day Price</div>
                 <div class="card-value">₹{{ predicted_price }}</div>
                 <div class="card-sub">AI Forecast · Linear Regression Model</div>
@@ -365,7 +140,7 @@ AI-Powered Automated Stock Report Generation System
                 {% if recommendation == 'BUY' %}card-buy
                 {% elif recommendation == 'SELL' %}card-sell
                 {% else %}card-hold{% endif %}
-                reveal" style="transition-delay:0.2s">
+                reveal" style="transition-delay:0.18s">
                 <div class="card-label">Investment Recommendation</div>
                 <div class="card-value">
                     <span class="rec-dot {{ recommendation|lower }}"></span>{{ recommendation }}
@@ -375,13 +150,12 @@ AI-Powered Automated Stock Report Generation System
             {% endif %}
 
             {% if mae %}
-            <div class="info-card card-mae reveal" style="transition-delay:0.3s">
+            <div class="info-card card-mae reveal" style="transition-delay:0.28s">
                 <div class="card-label">Model MAE Score</div>
                 <div class="card-value">{{ mae }}</div>
                 <div class="card-sub">Mean Absolute Error</div>
             </div>
             {% endif %}
-
         </div>
         {% endif %}
 
@@ -394,64 +168,62 @@ AI-Powered Automated Stock Report Generation System
                 <div class="report-icon">📄</div>
                 <div>
                     <div class="report-title">Executive Stock Analysis Report</div>
-                    <div class="report-subtitle">{{ predicted_price }} · {{ recommendation }}</div>
+                    <div class="report-subtitle">{{ stock_symbol }} &nbsp;·&nbsp; NSE &nbsp;·&nbsp; 3-Month Analysis</div>
                 </div>
             </div>
 
             <div class="report-body">
 
-                <!-- Stock Identity -->
                 <div class="report-section">
                     <div class="report-section-title">Stock Under Analysis</div>
                     <p class="report-text">
-                        This report presents an automated analysis for
+                        This report presents an automated AI analysis for
                         <span class="stock-highlight">{{ stock_symbol }}</span>.
                         The data covers the last 3 months of trading activity on the NSE exchange,
-                        processed through a Linear Regression model with moving average features.
+                        processed through a Linear Regression model trained on closing prices,
+                        5-day and 10-day moving averages, and daily return rates.
                     </p>
                 </div>
 
-                <!-- Market Trend -->
                 <div class="report-section">
                     <div class="report-section-title">Market Trend Analysis</div>
                     <p class="report-text">
                         {% if recommendation == 'BUY' %}
                         The stock shows <strong>positive momentum</strong> based on historical data.
-                        The AI model's predicted price of <strong>₹{{ predicted_price }}</strong> is higher than
-                        the current market price of <strong>₹{{ current_price }}</strong>,
-                        suggesting a potential upward movement in the short term.
+                        The AI model predicts <strong>₹{{ predicted_price }}</strong> against the current
+                        market price of <strong>₹{{ current_price }}</strong>, suggesting a potential
+                        upward movement in the short term.
                         {% elif recommendation == 'SELL' %}
                         The stock shows <strong>negative momentum</strong> based on historical data.
-                        The AI model's predicted price of <strong>₹{{ predicted_price }}</strong> is lower than
-                        the current market price of <strong>₹{{ current_price }}</strong>,
-                        suggesting a potential downward movement in the short term.
+                        The AI model predicts <strong>₹{{ predicted_price }}</strong> against the current
+                        market price of <strong>₹{{ current_price }}</strong>, suggesting a potential
+                        downward movement in the short term.
                         {% else %}
                         The stock is currently moving within a <strong>stable price range</strong>.
-                        The AI model's predicted price of <strong>₹{{ predicted_price }}</strong> is close to
-                        the current market price of <strong>₹{{ current_price }}</strong>,
-                        indicating a consolidation phase with no strong directional bias.
+                        The AI model predicts <strong>₹{{ predicted_price }}</strong> close to the current
+                        market price of <strong>₹{{ current_price }}</strong>, indicating a consolidation
+                        phase with no strong directional bias.
                         {% endif %}
                     </p>
                 </div>
 
-                <!-- Business Insight -->
                 <div class="report-section">
                     <div class="report-section-title">Business Insight</div>
                     <p class="report-text">
                         The machine learning model analyzes <strong>historical market behavior</strong>
-                        using closing prices, 5-day and 10-day moving averages, and daily return rates.
-                        Based on the prediction and trend comparison, the system recommends a
-                        <strong>{{ recommendation }}</strong> position with a model accuracy (MAE) of <strong>{{ mae }}</strong>.
+                        using closing prices, moving averages, and daily return rates. Based on the
+                        prediction and trend comparison, the system recommends a
+                        <strong>{{ recommendation }}</strong> position. The model's Mean Absolute Error
+                        of <strong>{{ mae }}</strong> reflects the forecast accuracy on test data.
                     </p>
                 </div>
 
-                <!-- Conclusion -->
                 <div class="report-section">
                     <div class="report-section-title">Conclusion</div>
                     <p class="report-text">
                         Investors may use this analysis as a <strong>decision-support tool</strong>.
-                        Actual investment decisions should consider additional market and financial factors
-                        beyond this automated analysis. Past performance and AI predictions do not guarantee future results.
+                        Actual investment decisions should consider additional market and financial
+                        factors. Past performance and AI predictions do not guarantee future results.
                     </p>
                 </div>
 
@@ -468,19 +240,23 @@ AI-Powered Automated Stock Report Generation System
         {% endif %}
 
     </div>
-    {% endif %}
 
-    <footer>
+    <footer class="results-footer">
         AI-Powered Automated Stock Report Generation System
     </footer>
+</div>
+{% endif %}
 
-    <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal, .reveal-left, .reveal-right')
-                .forEach(el => observer.observe(el));
-    </script>
+<script>
+    function fill(sym) {
+        document.getElementById('stockInput').value = sym;
+    }
+    const obs = new IntersectionObserver(
+        entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+        { threshold: 0.1 }
+    );
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
 
 </body>
 </html>
