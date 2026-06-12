@@ -26,6 +26,9 @@ def generate_pdf(report_text):
     pdf.add_page()
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.set_font("Arial", size=11)
+    pdf.set_margins(left=10, top=10, right=10)
+
+    effective_width = pdf.w - pdf.l_margin - pdf.r_margin  # ~190mm for A4
 
     for line in report_text.split("\n"):
         line = line.strip()
@@ -34,22 +37,22 @@ def generate_pdf(report_text):
             pdf.ln(5)
             continue
 
-        # Replace separator lines entirely
         if set(line) <= {"="} or set(line) <= {"-"}:
             line = "-" * 30
 
-        # Strip any non-latin-1 characters (fpdf's default font can't render them)
         line = line.encode("latin-1", "ignore").decode("latin-1")
 
         if line == "":
             continue
 
+        pdf.set_x(pdf.l_margin)  # reset cursor before every line
+
         try:
-            pdf.multi_cell(w=0, h=8, txt=line)
+            pdf.multi_cell(w=effective_width, h=8, txt=line)
         except Exception:
-            # last-resort: break into very small chunks
             for chunk in [line[i:i+20] for i in range(0, len(line), 20)]:
-                pdf.multi_cell(w=0, h=8, txt=chunk)
+                pdf.set_x(pdf.l_margin)
+                pdf.multi_cell(w=effective_width, h=8, txt=chunk)
 
     pdf.output("reports/stock_report.pdf")
 
