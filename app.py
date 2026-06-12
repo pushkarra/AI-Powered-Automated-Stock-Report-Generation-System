@@ -24,9 +24,24 @@ os.makedirs("static",  exist_ok=True)
 def generate_pdf(report_text):
     pdf = FPDF()
     pdf.add_page()
+
+    pdf.set_auto_page_break(auto=True, margin=15)
     pdf.set_font("Arial", size=12)
+
     for line in report_text.split("\n"):
-        pdf.multi_cell(0, 10, line)
+
+        line = line.strip()
+
+        if line == "":
+            pdf.ln(5)
+            continue
+
+        pdf.multi_cell(
+            w=190,
+            h=8,
+            txt=str(line)
+        )
+
     pdf.output("reports/stock_report.pdf")
 
 
