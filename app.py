@@ -24,23 +24,22 @@ os.makedirs("static",  exist_ok=True)
 def generate_pdf(report_text):
     pdf = FPDF()
     pdf.add_page()
-
     pdf.set_auto_page_break(auto=True, margin=15)
-    pdf.set_font("Arial", size=12)
+    pdf.set_font("Arial", size=11)
 
     for line in report_text.split("\n"):
-
         line = line.strip()
 
         if line == "":
             pdf.ln(5)
             continue
 
-        pdf.multi_cell(
-            w=190,
-            h=8,
-            txt=str(line)
-        )
+        # fpdf can't wrap long lines with no spaces (e.g. "===...===")
+        # so shorten any run of repeated non-space characters
+        import re
+        line = re.sub(r'([^\sa-zA-Z0-9])\1{9,}', lambda m: m.group(1) * 40, line)
+
+        pdf.multi_cell(w=0, h=8, txt=line)
 
     pdf.output("reports/stock_report.pdf")
 
@@ -152,7 +151,7 @@ def index():
             AI Predicted Price  : Rs. {predicted_price}
             Investment Recommendation: {recommendation}
 
-            ===========================================
+            ===================================
             MARKET TREND ANALYSIS
             {trend_analysis}
 
