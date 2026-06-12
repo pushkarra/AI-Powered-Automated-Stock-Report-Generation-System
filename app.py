@@ -34,12 +34,22 @@ def generate_pdf(report_text):
             pdf.ln(5)
             continue
 
-        # fpdf can't wrap long lines with no spaces (e.g. "===...===")
-        # so shorten any run of repeated non-space characters
-        import re
-        line = re.sub(r'([^\sa-zA-Z0-9])\1{9,}', lambda m: m.group(1) * 40, line)
+        # Replace separator lines entirely
+        if set(line) <= {"="} or set(line) <= {"-"}:
+            line = "-" * 30
 
-        pdf.multi_cell(w=0, h=8, txt=line)
+        # Strip any non-latin-1 characters (fpdf's default font can't render them)
+        line = line.encode("latin-1", "ignore").decode("latin-1")
+
+        if line == "":
+            continue
+
+        try:
+            pdf.multi_cell(w=0, h=8, txt=line)
+        except Exception:
+            # last-resort: break into very small chunks
+            for chunk in [line[i:i+20] for i in range(0, len(line), 20)]:
+                pdf.multi_cell(w=0, h=8, txt=chunk)
 
     pdf.output("reports/stock_report.pdf")
 
